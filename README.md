@@ -1,4 +1,4 @@
-# Personalised RAG LLM ChatBot
+# Multi-user, Context-adaptive LLM System
 
 [GitHub Repository](https://github.com/ohnogaurav/Personalised-RAG-LLM-ChatBot) | [Hugging Face Demo](https://huggingface.co/spaces/ohnogaurav/Personal-memory-llm)
 
@@ -6,9 +6,9 @@
 
 ## Overview
 
-This project is a **Personalised Chatbot** that uses **RAG (Retrieval-Augmented Generation)** with **Google Gemini LLM** and **MongoDB** to store user-specific memory. The bot can remember past facts about each user and provide context-aware responses.
+This project is an advanced **multi-user conversational LLM system** built using **Retrieval-Augmented Generation (RAG)** and **Google Gemini 2.5.** Unlike traditional chatbots that remember a single user, this system enables **multiple users** to interact concurrently within a **single instance**, each receiving uniquely tailored responses based on their **individual memory, prompt behavior, and interaction style.**
 
-It demonstrates a **clean modular architecture**, combining **LLM integration, persistent storage, and a user-friendly Gradio interface**, showcasing real-world software engineering practices alongside AI.
+It demonstrates a **scalable AI architecture** integrating **personalized reasoning, context retrieval, and persistent user profiling**, all orchestrated through a clean, modular Python backend and an intuitive Gradio interface.
 
 ---
 
@@ -26,10 +26,10 @@ It demonstrates a **clean modular architecture**, combining **LLM integration, p
 ## Architecture
 
 ```text
-User
+User (Multiple Concurrent Users)
  │
  ▼
-Gradio Frontend
+Gradio Frontend(Session-based)
  │
  ▼
 Backend (Python Modules)
