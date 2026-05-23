@@ -31,6 +31,18 @@ async def startup_event():
         await conn.run_sync(Base.metadata.create_all)
     print("✅ SQL Database tables verified/created successfully.")
 
+import os
+from fastapi.staticfiles import StaticFiles
+
+# Serve Next.js frontend static export files if they exist in static/
+backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+static_dir = os.path.join(backend_dir, "static")
+if os.path.exists(static_dir):
+    app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
+    print(f"Mounted static files from: {static_dir}")
+else:
+    print(f"Static directory not found at {static_dir}. Serving API only.")
+
 @app.get("/health", tags=["health"])
 async def health_check():
     return {"status": "healthy", "service": settings.APP_NAME}

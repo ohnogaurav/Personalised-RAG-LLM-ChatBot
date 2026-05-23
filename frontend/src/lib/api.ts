@@ -2,11 +2,11 @@ import axios from 'axios';
 
 // FastAPI API Backend URL
 export const API_BASE_URL = typeof window !== 'undefined'
-  ? (window.location.hostname === 'localhost' ? 'http://localhost:8000/api/v1' : `http://${window.location.hostname}:8000/api/v1`)
+  ? (window.location.hostname === 'localhost' ? 'http://localhost:8000/api/v1' : `${window.location.protocol}//${window.location.host}/api/v1`)
   : 'http://localhost:8000/api/v1';
 
 export const WS_BASE_URL = typeof window !== 'undefined'
-  ? (window.location.hostname === 'localhost' ? 'ws://localhost:8000/api/v1' : `ws://${window.location.hostname}:8000/api/v1`)
+  ? (window.location.hostname === 'localhost' ? 'ws://localhost:8000/api/v1' : `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/api/v1`)
   : 'ws://localhost:8000/api/v1';
 
 const api = axios.create({
