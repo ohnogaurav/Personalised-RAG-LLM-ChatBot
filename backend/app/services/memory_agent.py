@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from app.models.sql import MemoryItem
-from app.services.gemini import gemini_service
+from app.services.llm import llm_service
 from app.services.vector_db import vector_db_service
 
 class MemoryAgent:
@@ -31,8 +31,8 @@ class MemoryAgent:
             # Map fact to its memory item to help resolve contradictions
             memory_map[m.fact.lower().strip()] = m
             
-        # 2. Extract facts via Gemini Service structured output
-        extracted_facts = await gemini_service.extract_memories(
+        # 2. Extract facts via Groq Service structured output
+        extracted_facts = await llm_service.extract_memories(
             user_query=user_message,
             assistant_response=assistant_response,
             existing_memories_text=existing_memories_text
@@ -64,7 +64,7 @@ class MemoryAgent:
                     db.add(matched_item)
                     # Delete from Qdrant vector database
                     await vector_db_service.delete_memory(matched_item.id)
-                    print(f"🔄 Conflict resolved: Deactivated old memory '{matched_item.fact}' for new fact '{new_fact.fact}'")
+                    print(f"Conflict resolved: Deactivated old memory '{matched_item.fact}' for new fact '{new_fact.fact}'")
             
             # 4. Save new fact to relational DB
             new_item = MemoryItem(
@@ -78,7 +78,7 @@ class MemoryAgent:
             await db.flush()  # Flushes to DB to generate the UUID primary key (new_item.id)
             
             # 5. Compute embedding vector for the new fact
-            embedding = await gemini_service.get_embedding(new_fact.fact)
+            embedding = await llm_service.get_embedding(new_fact.fact)
             
             # 6. Insert new memory vector into Qdrant
             await vector_db_service.upsert_memory(
@@ -88,7 +88,7 @@ class MemoryAgent:
                 category=new_fact.category,
                 vector=embedding
             )
-            print(f"🧠 Learned new fact: ({new_fact.category}) -> '{new_fact.fact}'")
+            print(f"Learned new fact: ({new_fact.category}) -> '{new_fact.fact}'")
             
         await db.commit()
 

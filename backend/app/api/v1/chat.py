@@ -13,7 +13,7 @@ from app.models.pydantic_schemas import (
     ChatSessionDetailResponse,
     MessageResponse
 )
-from app.services.gemini import gemini_service
+from app.services.llm import llm_service
 from app.services.vector_db import vector_db_service
 from app.services.memory_agent import memory_agent
 
@@ -129,7 +129,7 @@ async def websocket_chat_endpoint(
                 recent_messages = list(reversed(history_result.scalars().all()))
                 
                 # 2. Vector search user's long-term memory
-                query_vector = await gemini_service.get_embedding(user_text)
+                query_vector = await llm_service.get_embedding(user_text)
                 memories = await vector_db_service.search_memories(user_id=user.id, query_vector=query_vector, limit=5)
                 
                 # Format long-term memories into context
@@ -160,9 +160,9 @@ Keep your responses conversational, insightful, and helpful.
                 # Send typing indicator
                 await websocket.send_json({"type": "status", "content": "thinking"})
                 
-                # 4. Stream response from Gemini
+                # 4. Stream response from Groq
                 assistant_response = ""
-                async for chunk in gemini_service.stream_chat_response(
+                async for chunk in llm_service.stream_chat_response(
                     prompt=chat_prompt,
                     system_instruction=system_instruction
                 ):

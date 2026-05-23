@@ -7,7 +7,8 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     
     # Environment configs
-    GOOGLE_API_KEY: str
+    GOOGLE_API_KEY: str = ""
+    GROQ_API_KEY: str = ""
     DATABASE_URL: str = "sqlite+aiosqlite:///./aethera.db"
     
     # JWT security configs
@@ -18,6 +19,9 @@ class Settings(BaseSettings):
     # Gemini model configurations
     MODEL: str = "gemini-2.5-flash"
     EMBEDDING_MODEL: str = "text-embedding-004"
+    
+    # Groq configurations
+    GROQ_MODEL: str = "llama-3.3-70b-versatile"
     
     # Vector DB
     QDRANT_URL: str = "memory"  # Use "memory" for zero-config in-memory Qdrant client
