@@ -104,7 +104,7 @@ class LLMService:
             
         prompt = f"""
 Analyze the following recent conversation turn between a User and the Assistant.
-Your task is to identify and extract any new facts, preferences, goals, career details, hobbies, or relationships that the User has revealed about themselves.
+Your task is to identify and extract any new facts, preferences, goals, career details, hobbies, or relationships that the User has revealed about themselves or people/pets close to them (e.g., spouse, children, friends, coworkers, pets).
 
 Do not extract facts about the Assistant.
 Do not extract temporary states (e.g. "User is hungry right now").
