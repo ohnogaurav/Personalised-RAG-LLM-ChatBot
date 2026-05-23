@@ -109,6 +109,7 @@ async def websocket_chat_endpoint(
             # Wait for message from user
             data = await websocket.receive_json()
             user_text = data.get("content", "").strip()
+            reply_length = data.get("reply_length", "short")
             
             if not user_text:
                 continue
@@ -151,6 +152,15 @@ async def websocket_chat_endpoint(
                     for m in memories:
                         memory_context_str += f"- {m['fact']}\n"
                 
+                # Define length constraints
+                length_instruction = ""
+                if reply_length == "very_short":
+                    length_instruction = "IMPORTANT: Keep your response extremely concise. Answer in exactly 1 short sentence."
+                elif reply_length == "short":
+                    length_instruction = "IMPORTANT: Keep your response brief. Answer in 2 short sentences."
+                elif reply_length == "medium":
+                    length_instruction = "IMPORTANT: Keep your response moderate in length. Answer in 3-4 sentences maximum."
+
                 # 3. Construct prompt
                 system_instruction = f"""
 You are Aethera, a highly advanced Personal AI Assistant.
@@ -160,6 +170,8 @@ You have a persistent, long-term memory of the user.
 
 Respond to the user naturally and directly. If the user tells you new information (like their name, preferences, or goals), acknowledge it.
 Keep your responses conversational, insightful, and helpful.
+
+{length_instruction}
 """
                 # Compile recent dialog history
                 dialogue_contents = []

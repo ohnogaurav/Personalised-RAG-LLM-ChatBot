@@ -9,6 +9,7 @@ export const ChatArea: React.FC = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [streamingContent, setStreamingContent] = useState('');
   const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [replyLength, setReplyLength] = useState<'very_short' | 'short' | 'medium'>('short');
   
   const chatEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<WebSocket | null>(null);
@@ -101,7 +102,7 @@ export const ChatArea: React.FC = () => {
     addMessage(tempUserMsg);
 
     // Send via socket
-    socket.send(JSON.stringify({ content: inputText }));
+    socket.send(JSON.stringify({ content: inputText, reply_length: replyLength }));
     setInputText('');
   };
 
@@ -196,6 +197,26 @@ export const ChatArea: React.FC = () => {
 
       {/* Input panel */}
       <div className="p-6 border-t border-slate-900 bg-black/10 backdrop-blur-md">
+        <div className="max-w-3xl mx-auto flex items-center justify-between mb-3 text-[11px] md:text-xs">
+          <span className="text-slate-400 font-medium tracking-wide">Reply Length:</span>
+          <div className="flex gap-1.5 bg-white/5 p-1 rounded-xl border border-white/10">
+            {(['very_short', 'short', 'medium'] as const).map((len) => (
+              <button
+                key={len}
+                type="button"
+                onClick={() => setReplyLength(len)}
+                className={`px-3 py-1 rounded-lg transition-all duration-150 capitalize text-[10px] md:text-xs ${
+                  replyLength === len
+                    ? 'bg-brand-indigo text-white font-semibold shadow-inner'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                {len.replace('_', ' ')}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <form onSubmit={handleSendMessage} className="max-w-3xl mx-auto relative flex items-center">
           <input
             type="text"
