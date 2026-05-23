@@ -53,8 +53,12 @@ settings = Settings(_env_file=_get_env_file())
 
 # Resolve relative SQLite URL to absolute path to prevent write errors in different workdirs
 if settings.DATABASE_URL.startswith("sqlite+aiosqlite:///./"):
-    core_dir = os.path.dirname(os.path.abspath(__file__))
-    backend_dir = os.path.dirname(os.path.dirname(core_dir))
-    db_name = settings.DATABASE_URL.split("///./")[-1]
-    settings.DATABASE_URL = f"sqlite+aiosqlite:///{os.path.join(backend_dir, db_name)}"
-    print(f"Resolved database URL to absolute path: {settings.DATABASE_URL}")
+    if os.name != 'nt':
+        # On Linux/Docker (Hugging Face), write database to /tmp to bypass permission limits
+        settings.DATABASE_URL = "sqlite+aiosqlite:////tmp/aethera.db"
+    else:
+        core_dir = os.path.dirname(os.path.abspath(__file__))
+        backend_dir = os.path.dirname(os.path.dirname(core_dir))
+        db_name = settings.DATABASE_URL.split("///./")[-1]
+        settings.DATABASE_URL = f"sqlite+aiosqlite:///{os.path.join(backend_dir, db_name)}"
+    print(f"Resolved database URL to: {settings.DATABASE_URL}")

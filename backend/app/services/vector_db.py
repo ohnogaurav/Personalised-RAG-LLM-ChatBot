@@ -16,7 +16,10 @@ class VectorDBService:
             # Configure client based on QDRANT_URL
             if settings.QDRANT_URL == "memory":
                 # Zero-config local persistent vector store (saves to a local folder)
-                db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "qdrant_db")
+                if os.name != 'nt':
+                    db_path = "/tmp/qdrant_db"
+                else:
+                    db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "qdrant_db")
                 self._client = QdrantClient(path=db_path)
                 print(f"📦 Qdrant client initialized with local persistent path: {db_path}")
             elif settings.QDRANT_URL.startswith("/") or settings.QDRANT_URL.startswith("./") or "/" in settings.QDRANT_URL or "\\" in settings.QDRANT_URL:
