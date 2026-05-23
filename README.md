@@ -1,136 +1,100 @@
-# Multi-user, Context-adaptive LLM System
+# Aethera AI - Personalized RAG LLM ChatBot
 
-[GitHub Repository](https://github.com/ohnogaurav/Personalised-RAG-LLM-ChatBot) | [Hugging Face Demo](https://huggingface.co/spaces/ohnogaurav/Personal-memory-llm)
-
----
-
-## Overview
-
-This project is an advanced **multi-user conversational LLM system** built using **Retrieval-Augmented Generation (RAG)** and **Google Gemini 2.5.** Unlike traditional chatbots that remember a single user, this system enables **multiple users** to interact concurrently within a **single instance**, each receiving uniquely tailored responses based on their **individual memory, prompt behavior, and interaction style.**
-
-It demonstrates a **scalable AI architecture** integrating **personalized reasoning, context retrieval, and persistent user profiling**, all orchestrated through a clean, modular Python backend and an intuitive Gradio interface.
+Aethera AI is a production-grade, multi-user, context-adaptive personal AI assistant platform built with a **FastAPI backend** and a **Next.js frontend**. The system features continuous background memory learning, vector database retrieval, and support for the Groq API.
 
 ---
 
-## Features
+## Key Features
 
-* **Persistent Memory**: Each user has a unique memory stored in MongoDB.
-* **Contextual Responses**: Responses are augmented by stored memory.
-* **Generative LLM**: Powered by Google Gemini 2.5 via `genai` SDK.
-* **Dynamic Memory Updates**: Automatically stores new facts shared by users.
-* **Interactive Web UI**: Lightweight and responsive Gradio interface.
-* **Modular Codebase**: Functions split into logical modules for maintainability.
-
----
-
-## Architecture
-
-```text
-User (Multiple Concurrent Users)
- │
- ▼
-Gradio Frontend(Session-based)
- │
- ▼
-Backend (Python Modules)
- ├─ memory.py        --> Handles MongoDB interactions
- ├─ genapicall.py    --> Handles Gemini API calls
- ├─ gradio_interface.py --> Orchestrates chat logic and UI
- └─ config.py        --> Stores constants & environment variables
- │
- ▼
-Google Gemini LLM API
- │
- ▼
-MongoDB (Persistent User Memory)
-```
-
-* Users interact via the Gradio interface.
-* Memory is fetched from MongoDB to provide context-aware responses.
-* Google Gemini API generates the output using stored memory.
-* Memory is automatically updated based on predefined keywords.
+* **Groq LLM Service**: Powered by `llama-3.3-70b-versatile` for fast streaming chat responses and precise structured JSON memory extraction.
+* **Continuous Background Memory Learning**: A background agent parses conversation turns in real-time, extracting preferences, goals, relationships, and facts.
+* **Robust Hybrid RAG Memory**: 
+  * Retrieves relevant context using Qdrant vector search.
+  * If vector embeddings are rate-limited or unavailable, it automatically falls back to fetching recent active profile facts directly from SQLite.
+* **Response Length Control Toggle**: Tester-friendly button selectors on the frontend (`Very Short` = 1 sentence, `Short` = 2-3 sentences, `Medium` = up to 5 sentences).
+* **Conflict Resolution**: The memory agent automatically deactivates outdated or contradicting memories when a user updates their preference.
+* **Windows Compatibility**: Unicode emojis removed from logs to prevent terminal encoding failures.
 
 ---
 
 ## Tech Stack
 
-* **Frontend**: Gradio
-* **Backend**: Python (modular structure)
-* **LLM**: Google Gemini 2.5 (`genai` SDK)
-* **Database**: MongoDB Atlas
-* **Hosting**: Hugging Face Spaces
+* **Frontend**: Next.js, Tailwind CSS, TypeScript, Zustand (State Management)
+* **Backend**: FastAPI, Uvicorn, SQLAlchemy (Async), SQLite
+* **Vector Database**: Qdrant Client (Persistent Local Database / In-Memory)
+* **LLM Engine**: Groq SDK (`llama-3.3-70b-versatile`)
+* **Embeddings**: Google Gemini API (`text-embedding-004`) with safe mock vector fallback.
 
 ---
 
-## Installation & Setup
+## Installation & Local Setup
 
-1. Clone the repository:
+### Step 1: Configure Environment Variables
+Create a `.env` file in the root folder (or copy `.env.example` to `.env`):
+```env
+# Groq API Key (Required for chat and memory extraction)
+GROQ_API_KEY=your_groq_api_key_here
 
-```bash
-git clone https://github.com/ohnogaurav/Personalised-RAG-LLM-ChatBot.git
-cd Personalised-RAG-LLM-ChatBot
+# Google Gemini API Key (Optional for embeddings fallback)
+GOOGLE_API_KEY=your_gemini_api_key_here
+
+DATABASE_URL=sqlite+aiosqlite:///./aethera.db
+QDRANT_URL=memory
 ```
 
-2. Install dependencies:
+### Step 2: Start the Backend (FastAPI)
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Create and activate a Python virtual environment:
+   ```bash
+   # Windows
+   python -m venv venv
+   .\venv\Scripts\Activate.ps1
 
+   # macOS/Linux
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Run the development server:
+   ```bash
+   python -m app.main
+   ```
+   *The Swagger interactive API documentation will be available at [http://localhost:8000/docs](http://localhost:8000/docs).*
+
+### Step 3: Start the Frontend (Next.js)
+1. Open a new terminal and navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Install Node modules:
+   ```bash
+   npm install
+   ```
+3. Start the Next.js dev server:
+   ```bash
+   npm run dev
+   ```
+   *The user interface will be available at [http://localhost:3000](http://localhost:3000).*
+
+---
+
+## Running Automated Backend Tests
+
+We include a test runner to verify database integrity, Groq connectivity, memory extraction, and fallbacks.
+
+Navigate to the `backend` directory and run:
 ```bash
-pip install -r requirements.txt
+python test_services.py
 ```
-
-3. Set environment variables (recommended via Hugging Face Secrets or `.env` file):
-
-```bash
-export MONGO_URI="your_mongodb_connection_string"
-export GOOGLE_API_KEY="your_gemini_api_key"
-```
-
-4. Run the app locally:
-
-```bash
-python app.py
-```
-
-5. Open the Gradio interface in your browser at `http://localhost:7860`.
-
----
-
-## Usage
-
-1. Enter your **username** and **message**.
-2. The bot retrieves your previous memory (if any) and provides a response.
-3. If your message contains a new fact (like "I love cats" or "My favorite color is blue"), it is stored automatically for future conversations.
-
----
-
-## Key Modules & Functions
-
-| Module                | Function                                 | Description                                                             |
-| --------------------- | ---------------------------------------- | ----------------------------------------------------------------------- |
-| `memory.py`           | `get_user_memory(username)`              | Retrieves memory from MongoDB for a user.                               |
-| `memory.py`           | `update_user_memory(username, new_fact)` | Adds new facts to user memory.                                          |
-| `genapicall.py`       | `generate_text(prompt)`                  | Calls Google Gemini API to generate LLM responses.                      |
-| `gradio_interface.py` | `chat(username, query)`                  | Orchestrates memory retrieval, response generation, and memory updates. |
-| `gradio_interface.py` | `launch_interface()`                     | Launches the Gradio web interface.                                      |
-
----
-
-## Deployment
-
-* Hosted on **Hugging Face Spaces** for a live demo.
-* MongoDB Atlas used for persistent, multi-user memory.
-* Modular backend allows **easy updates**, swapping LLMs, or switching databases.
-
----
-
-## Future Improvements
-
-* Implement semantic search or vector embeddings for **advanced RAG memory retrieval**.
-* Multi-session support with isolated user memory.
-* Conversation summarization to reduce memory size over time.
-* Enhanced UI/UX with **chat history, editable memory, and rich formatting**.
 
 ---
 
 ## License
 
-Open-source under **MIT License**.
+Open-source under the **MIT License**.
