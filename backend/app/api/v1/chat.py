@@ -129,8 +129,20 @@ async def websocket_chat_endpoint(
                 recent_messages = list(reversed(history_result.scalars().all()))
                 
                 # 2. Vector search user's long-term memory
+                memories = []
                 query_vector = await llm_service.get_embedding(user_text)
-                memories = await vector_db_service.search_memories(user_id=user.id, query_vector=query_vector, limit=5)
+                if any(v != 0.0 for v in query_vector):
+                    memories = await vector_db_service.search_memories(user_id=user.id, query_vector=query_vector, limit=5)
+                
+                # Fallback to recent active memories from SQL if vector search is empty or embedding failed
+                if not memories:
+                    db_memories = await db.execute(
+                        select(MemoryItem)
+                        .where(MemoryItem.user_id == user.id, MemoryItem.is_active == True)
+                        .order_by(MemoryItem.updated_at.desc())
+                        .limit(5)
+                    )
+                    memories = [{"fact": m.fact} for m in db_memories.scalars().all()]
                 
                 # Format long-term memories into context
                 memory_context_str = ""
