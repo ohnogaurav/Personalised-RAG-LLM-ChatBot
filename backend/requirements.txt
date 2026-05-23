@@ -13,3 +13,4 @@ websockets>=12.0
 python-dotenv
 email-validator
 groq
+bcrypt==4.0.1
