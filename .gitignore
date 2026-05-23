@@ -17,7 +17,7 @@ dist/
 *.db-shm
 *.db-wal
 qdrant_db/
-aethera.db
+anubodh.db
 
 # Environments and Secrets
 .env

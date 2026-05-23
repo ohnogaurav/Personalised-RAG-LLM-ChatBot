@@ -67,7 +67,7 @@ export const MemoryTimeline: React.FC = () => {
             Cognitive Memory Space
           </h2>
           <p className="text-slate-400 text-sm mt-1">
-            Review, edit, and control everything Aethera knows about your preferences and facts.
+            Review, edit, and control everything Anubodh knows about your preferences and facts.
           </p>
         </div>
         <button
@@ -134,7 +134,7 @@ export const MemoryTimeline: React.FC = () => {
             <AlertCircle className="w-10 h-10 text-slate-600 mx-auto" />
             <h3 className="text-lg font-semibold text-slate-350">No memories found</h3>
             <p className="text-slate-500 text-xs leading-relaxed">
-              When you talk to Aethera, facts starting with things like "I am", "I love", or specific preferences will be automatically extracted and visible here.
+              When you talk to Anubodh, facts starting with things like "I am", "I love", or specific preferences will be automatically extracted and visible here.
             </p>
           </div>
         ) : (

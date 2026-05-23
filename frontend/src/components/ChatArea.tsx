@@ -118,7 +118,7 @@ export const ChatArea: React.FC = () => {
             <Sparkles className="w-8 h-8 animate-pulse" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold tracking-tight text-white mb-2">Welcome to Aethera</h2>
+            <h2 className="text-2xl font-bold tracking-tight text-white mb-2">Welcome to Anubodh</h2>
             <p className="text-slate-400 text-sm leading-relaxed">
               Your next-generation personal assistant platform. Select a chat from the sidebar or start a new thread to begin learning and reasoning.
             </p>
@@ -222,7 +222,7 @@ export const ChatArea: React.FC = () => {
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder="Talk to Aethera... (e.g. 'I love vanilla ice cream')"
+            placeholder="Talk to Anubodh... (e.g. 'I love vanilla ice cream')"
             className="w-full bg-white/5 focus:bg-white/[0.08] text-slate-100 placeholder-slate-500 text-sm py-3.5 pl-5 pr-14 rounded-2xl border border-white/10 focus:border-brand-indigo/60 focus:ring-1 focus:ring-brand-indigo/40 outline-none transition-all duration-200"
           />
           <button
@@ -234,7 +234,7 @@ export const ChatArea: React.FC = () => {
           </button>
         </form>
         <p className="text-[10px] text-center text-slate-500 mt-3 tracking-wide">
-          Aethera auto-extracts memory facts in the background to continuously adapt to you.
+          Anubodh auto-extracts memory facts in the background to continuously adapt to you.
         </p>
       </div>
     </div>

@@ -3,13 +3,13 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     # App configuration
-    APP_NAME: str = "Aethera AI Backend"
+    APP_NAME: str = "Anubodh AI Backend"
     API_V1_STR: str = "/api/v1"
     
     # Environment configs
     GOOGLE_API_KEY: str = ""
     GROQ_API_KEY: str = ""
-    DATABASE_URL: str = "sqlite+aiosqlite:///./aethera.db"
+    DATABASE_URL: str = "sqlite+aiosqlite:///./anubodh.db"
     
     # JWT security configs
     JWT_SECRET_KEY: str = "supersecret_default_key_for_development_replace_this_in_production"
@@ -53,7 +53,7 @@ settings = Settings(_env_file=_get_env_file())
 
 # Force SQLite database to /tmp on Linux/Hugging Face to bypass any write permission limits
 if os.name != 'nt' and "sqlite" in settings.DATABASE_URL:
-    settings.DATABASE_URL = "sqlite+aiosqlite:////tmp/aethera.db"
+    settings.DATABASE_URL = "sqlite+aiosqlite:////tmp/anubodh.db"
     print(f"Forced Linux SQLite database URL to: {settings.DATABASE_URL}")
 elif settings.DATABASE_URL.startswith("sqlite+aiosqlite:///./"):
     core_dir = os.path.dirname(os.path.abspath(__file__))

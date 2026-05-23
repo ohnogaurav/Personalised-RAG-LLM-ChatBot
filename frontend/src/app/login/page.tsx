@@ -95,7 +95,7 @@ export default function LoginPage() {
             {isLogin ? 'Welcome Back' : 'Create Account'}
           </h2>
           <p className="text-slate-400 text-xs mt-1">
-            {isLogin ? 'Enter your details to log in to Aethera' : 'Get started with your personal AI assistant'}
+            {isLogin ? 'Enter your details to log in to Anubodh' : 'Get started with your personal AI assistant'}
           </p>
         </div>
 

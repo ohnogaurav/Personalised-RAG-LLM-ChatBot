@@ -13,7 +13,7 @@ from app.core.database import async_session_maker, engine, Base
 
 async def run_tests():
     print("==================================================")
-    print("           AETHERA AI TEST SUITE                  ")
+    print("           ANUBODH AI TEST SUITE                  ")
     print("==================================================")
 
     # 1. Verify API Configuration

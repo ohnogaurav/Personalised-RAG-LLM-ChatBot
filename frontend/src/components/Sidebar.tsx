@@ -45,7 +45,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
         </div>
         <div>
           <h1 className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-100 to-indigo-300">
-            Aethera AI
+            Anubodh AI
           </h1>
           <span className="text-[10px] uppercase font-semibold text-brand-indigo tracking-widest">
             Cognitive Core

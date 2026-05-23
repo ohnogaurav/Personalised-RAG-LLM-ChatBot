@@ -163,7 +163,7 @@ async def websocket_chat_endpoint(
 
                 # 3. Construct prompt
                 system_instruction = f"""
-You are Aethera, a highly advanced Personal AI Assistant.
+You are Anubodh, a highly advanced Personal AI Assistant.
 You have a persistent, long-term memory of the user.
 
 {memory_context_str}

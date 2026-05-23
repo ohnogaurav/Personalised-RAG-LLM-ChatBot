@@ -1,5 +1,5 @@
 ---
-title: Aethera AI
+title: Anubodh AI
 emoji: 🧠
 colorFrom: indigo
 colorTo: purple
@@ -8,9 +8,9 @@ app_port: 7860
 pinned: false
 ---
 
-# Aethera AI - Personalized RAG LLM ChatBot
+# Anubodh AI - Personalized RAG LLM ChatBot
 
-Aethera AI is a production-grade, multi-user, context-adaptive personal AI assistant platform built with a **FastAPI backend** and a **Next.js frontend**. The system features continuous background memory learning, vector database retrieval, and support for the Groq API.
+Anubodh AI is a production-grade, multi-user, context-adaptive personal AI assistant platform built with a **FastAPI backend** and a **Next.js frontend**. The system features continuous background memory learning, vector database retrieval, and support for the Groq API.
 
 ---
 
@@ -48,7 +48,7 @@ GROQ_API_KEY=your_groq_api_key_here
 # Google Gemini API Key (Optional for embeddings fallback)
 GOOGLE_API_KEY=your_gemini_api_key_here
 
-DATABASE_URL=sqlite+aiosqlite:///./aethera.db
+DATABASE_URL=sqlite+aiosqlite:///./anubodh.db
 QDRANT_URL=memory
 ```
 

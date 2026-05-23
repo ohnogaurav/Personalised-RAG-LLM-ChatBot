@@ -18,7 +18,7 @@ export default function LandingPage() {
             <Brain className="w-6 h-6 text-brand-indigo" />
           </div>
           <span className="font-bold text-lg tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-200">
-            Aethera AI
+            Anubodh AI
           </span>
         </div>
         <Link
@@ -46,7 +46,7 @@ export default function LandingPage() {
             </span>
           </h1>
           <p className="text-slate-400 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
-            Aethera is a personal cognitive partner. It automatically extracts memories, facts, and preferences in real time to form a permanent, contextual vector profile.
+            Anubodh is a personal cognitive partner. It automatically extracts memories, facts, and preferences in real time to form a permanent, contextual vector profile.
           </p>
         </div>
 
@@ -97,7 +97,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="max-w-7xl mx-auto w-full px-6 py-8 border-t border-slate-900 text-center text-xs text-slate-650 z-10">
-        &copy; 2026 Aethera AI Technologies. All rights reserved. Built with Gemini 2.5 and FastAPI.
+        &copy; 2026 Anubodh AI Technologies. All rights reserved. Built with Gemini 2.5 and FastAPI.
       </footer>
     </div>
   );

@@ -3,8 +3,8 @@ import React from 'react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Aethera AI | Next-Gen Cognitive Personal Assistant',
-  description: 'Aethera is a personal AI assistant built with Google Gemini and persistent semantic vector memory. It remembers preferences, facts, and styles to tailor every interaction.',
+  title: 'Anubodh AI | Next-Gen Cognitive Personal Assistant',
+  description: 'Anubodh is a personal AI assistant built with Google Gemini and persistent semantic vector memory. It remembers preferences, facts, and styles to tailor every interaction.',
 };
 
 export default function RootLayout({
