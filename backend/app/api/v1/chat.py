@@ -155,11 +155,11 @@ async def websocket_chat_endpoint(
                 # Define length constraints
                 length_instruction = ""
                 if reply_length == "very_short":
-                    length_instruction = "IMPORTANT: Keep your response extremely concise. Answer in exactly 1 short sentence."
+                    length_instruction = "IMPORTANT: Answer in exactly one sentence."
                 elif reply_length == "short":
-                    length_instruction = "IMPORTANT: Keep your response brief. Answer in 2 short sentences."
+                    length_instruction = "IMPORTANT: Keep your response short, between 2 and 3 sentences."
                 elif reply_length == "medium":
-                    length_instruction = "IMPORTANT: Keep your response moderate in length. Answer in 3-4 sentences maximum."
+                    length_instruction = "IMPORTANT: Keep your response moderate, up to 5 sentences."
 
                 # 3. Construct prompt
                 system_instruction = f"""
