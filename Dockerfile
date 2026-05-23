@@ -27,6 +27,11 @@ COPY backend/test_services.py ./
 # Copy built frontend static files to /workspace/static
 COPY --from=frontend-builder /frontend/out/ ./static
 
+# Setup user permissions for Hugging Face Spaces (runs as UID 1000)
+RUN useradd -m -u 1000 user || true
+RUN chown -R 1000:1000 /workspace
+USER user
+
 # Expose the default port for Hugging Face Spaces
 EXPOSE 7860
 
